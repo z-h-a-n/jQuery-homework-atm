@@ -1,40 +1,35 @@
-//.val() get value for text box
-//.text() get value from display
-//.html() get html value
-
-
-// var deposit1 =  $('#deposit1').attr('value')
-
-// var withdraw1 = $('#withdraw1').attr('value')
-
-// var amount1 = $('#amount1').val();
-
-
-
-
 // current account
-
 var amtEntered1 = "0";
 var amtBalance1 = "0";
 
 var addCurrent = function(){
 	amtBalance1 = Number($('#amount1').val()) + Number(amtBalance1);
+	amtBalance1 = Number(amtBalance1) < 0 ? 0 : Number(amtBalance1);
 	amtEntered1 = Number($('#amount1').val());
-	console.log(amtEntered1);
-	balanceCurrent();
+	console.log(amtBalance1);
+	if (amtBalance1 >= 0) {
+		balanceCurrent();
+	};
 };
 
 var subtractCurrent = function(){
-	amtBalance1 = Number(amtBalance1) - Number($('#amount1').val());
+	if (balanceTol() > Number($('#amount1').val()) && Number(amtBalance1) < Number($('#amount1').val())) {
+		amtBalance1 = Number(amtBalance1) - Number($('#amount1').val()) + Number(amtBalance2);
+	} else {
+		amtBalance1 = Number(amtBalance1) - Number($('#amount1').val());
+	};
+	amtBalance1 = Number(amtBalance1) < 0 ? 0 : Number(amtBalance1);
 	amtEntered1 = Number($('#amount1').val());
-	console.log(amtEntered1);
+	console.log(amtBalance1);
+	if (amtBalance1 >= 0) {
 	balanceCurrent();
 };
-
+};
 
 var balanceCurrent = function(){
-	$('#balance1').html("$" + amtBalance1);
+$('#balance1').html("$" + amtBalance1);
 };
+
 
 
 // saving account
@@ -44,36 +39,44 @@ var amtBalance2 = "0";
 
 var addSave = function() {
 	amtBalance2 = Number($('#amount2').val()) + Number(amtBalance2);
+	amtBalance2 = Number(amtBalance2) < 0 ? 0 : Number(amtBalance2);
 	amtEntered2 = Number($('#amount2').val());
-	console.log(amtEntered2);
-	balanceSave();
+	console.log(amtBalance2);
+	if (amtBalance2 >= 0) {
+		balanceSave();
+	};
 };
 
 var subtractSave = function(){
 	amtBalance2 = Number(amtBalance2) - Number($('#amount2').val());
+	amtBalance2 = Number(amtBalance2) < 0 ? 0 : Number(amtBalance2);
 	amtEntered2 = Number($('#amount2').val());
-	console.log(amtEntered2);
-	balanceSave();
+	console.log(amtBalance2);
+	if (amtBalance2 >= 0) {
+		balanceSave();
+	};
 };
 
+
 var balanceSave = function(){
-	$('#balance2').html("$" + amtBalance2);
+$('#balance2').html("$" + amtBalance2);
+};
+
+ 
+
+
+
+function balanceTol() {
+ return Number(amtBalance1) + Number(amtBalance2);
 };
 
 //transfer between 2 account
 
-
-var balanceTol = function () {
- return Number(amtBalance1) + Number(amtBalance2);
-
-};
-
-
-// if amtEntered1 < balanceTol => amtBalance1 = balanceTol - amtEntered1 AND amtBalance2 = amtBalance1 - amtEntered1 + amtBalance2
-if (amtEntered1 < balanceTol()) {
-	amtBalance1 = balanceTol() - amtBalance1;
-	amtBalance2 = amtBalance1 - amtBalance1 + amtBalance2;
-};
+if (balanceTol() < Number($('#amount1').val())) {
+	alert("You account is overdrown!");
+	console.log(balanceTol());
+} else {
+}
 
 
 // event listener
